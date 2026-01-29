@@ -1,11 +1,13 @@
 package com.example.productorder.domain;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class Product {
 
@@ -19,5 +21,10 @@ public class Product {
 
     @Column(nullable = false)
     private int price;
+
+    public Product(String name, int price) {
+        this.name = name;
+        this.price = price;
+    }
 
 }

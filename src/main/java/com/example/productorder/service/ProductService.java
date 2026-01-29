@@ -1,0 +1,23 @@
+package com.example.productorder.service;
+
+import com.example.productorder.domain.Product;
+import com.example.productorder.dto.ProductRequestDto;
+import com.example.productorder.dto.ProductResponseDto;
+import com.example.productorder.repository.ProductRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+@Service
+@RequiredArgsConstructor
+public class ProductService {
+
+    private final ProductRepository productRepository;
+
+    public ProductResponseDto createProduct(ProductRequestDto request) {
+        Product product = new Product(request.getName(), request.getPrice());
+        productRepository.save(product);
+
+        return ProductResponseDto.from(product);
+    }
+
+}
