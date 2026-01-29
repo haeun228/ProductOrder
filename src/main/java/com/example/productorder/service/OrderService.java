@@ -24,4 +24,11 @@ public class OrderService {
 
         return OrderResponseDto.from(order);
     }
+
+    public OrderResponseDto getOrder(Long orderId) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 주문입니다."));
+
+        return OrderResponseDto.from(order);
+    }
 }
