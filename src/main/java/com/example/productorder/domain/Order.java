@@ -23,4 +23,10 @@ public class Order {
 
     @Column(nullable = false)
     private LocalDateTime orderedAt;
+
+    public Order(Product product) {
+        this.product = product;
+        this.orderedAt = LocalDateTime.now();
+    }
+
 }
