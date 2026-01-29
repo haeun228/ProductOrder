@@ -24,8 +24,7 @@ public class ProductService {
     }
 
     public ProductResponseDto getProduct(Long productId) {
-        Product product = productRepository.findById(productId).orElseThrow(
-                () -> new IllegalArgumentException("상품을 찾을 수 없습니다."));
+        Product product = findProductById(productId);
         return ProductResponseDto.from(product);
     }
 
@@ -38,11 +37,19 @@ public class ProductService {
 
     @Transactional
     public ProductResponseDto updateProduct(Long productId, ProductRequestDto request) {
-        Product product = productRepository.findById(productId).orElseThrow(
-                () -> new IllegalArgumentException("상품을 찾을 수 없습니다."));
+        Product product = findProductById(productId);
         product.update(request);
 
         return ProductResponseDto.from(product);
     }
 
+    public void deleteProduct(Long productId) {
+        Product product = findProductById(productId);
+        productRepository.delete(product);
+    }
+
+    private Product findProductById(Long productId) {
+        return productRepository.findById(productId)
+                .orElseThrow(() -> new IllegalArgumentException("상품을 찾을 수 없습니다."));
+    }
 }
