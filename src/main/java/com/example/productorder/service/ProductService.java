@@ -4,6 +4,7 @@ import com.example.productorder.domain.Product;
 import com.example.productorder.dto.ProductRequestDto;
 import com.example.productorder.dto.ProductResponseDto;
 import com.example.productorder.repository.ProductRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -34,4 +35,14 @@ public class ProductService {
                 .map(ProductResponseDto::from)
                 .toList();
     }
+
+    @Transactional
+    public ProductResponseDto updateProduct(Long productId, ProductRequestDto request) {
+        Product product = productRepository.findById(productId).orElseThrow(
+                () -> new IllegalArgumentException("상품을 찾을 수 없습니다."));
+        product.update(request);
+
+        return ProductResponseDto.from(product);
+    }
+
 }

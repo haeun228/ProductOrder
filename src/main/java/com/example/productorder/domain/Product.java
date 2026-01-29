@@ -1,5 +1,6 @@
 package com.example.productorder.domain;
 
+import com.example.productorder.dto.ProductRequestDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,4 +28,8 @@ public class Product {
         this.price = price;
     }
 
+    public void update(ProductRequestDto request) {
+        this.name = request.getName();
+        this.price = request.getPrice();
+    }
 }
