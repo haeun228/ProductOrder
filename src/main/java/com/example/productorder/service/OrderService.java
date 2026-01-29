@@ -7,6 +7,10 @@ import com.example.productorder.dto.OrderResponseDto;
 import com.example.productorder.repository.OrderRepository;
 import com.example.productorder.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedModel;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -30,5 +34,12 @@ public class OrderService {
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 주문입니다."));
 
         return OrderResponseDto.from(order);
+    }
+
+    public PagedModel<OrderResponseDto> getOrderList(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<OrderResponseDto> orders = orderRepository.findAll(pageable).map(OrderResponseDto::from);
+
+        return new PagedModel<>(orders);
     }
 }

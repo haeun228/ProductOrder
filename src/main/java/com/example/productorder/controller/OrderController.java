@@ -4,6 +4,7 @@ import com.example.productorder.dto.OrderRequestDto;
 import com.example.productorder.dto.OrderResponseDto;
 import com.example.productorder.service.OrderService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.web.PagedModel;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -21,6 +22,13 @@ public class OrderController {
     @GetMapping("/{orderId}")
     public OrderResponseDto getOrder(@PathVariable Long orderId) {
         return orderService.getOrder(orderId);
+    }
+
+    @GetMapping
+    public PagedModel<OrderResponseDto> getOrderList(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        return orderService.getOrderList(page, size);
     }
 
 }
