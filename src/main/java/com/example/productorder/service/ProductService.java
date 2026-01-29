@@ -7,6 +7,8 @@ import com.example.productorder.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class ProductService {
@@ -20,4 +22,16 @@ public class ProductService {
         return ProductResponseDto.from(product);
     }
 
+    public ProductResponseDto getProduct(Long productId) {
+        Product product = productRepository.findById(productId).orElseThrow(
+                () -> new IllegalArgumentException("상품을 찾을 수 없습니다."));
+        return ProductResponseDto.from(product);
+    }
+
+    public List<ProductResponseDto> getProductList() {
+        List<Product> productList = productRepository.findAll();
+        return productList.stream()
+                .map(ProductResponseDto::from)
+                .toList();
+    }
 }

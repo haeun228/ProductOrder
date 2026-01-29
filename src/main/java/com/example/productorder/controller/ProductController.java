@@ -4,10 +4,9 @@ import com.example.productorder.dto.ProductRequestDto;
 import com.example.productorder.dto.ProductResponseDto;
 import com.example.productorder.service.ProductService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,6 +18,16 @@ public class ProductController {
     @PostMapping
     public ProductResponseDto createProduct(@RequestBody ProductRequestDto request) {
         return productService.createProduct(request);
+    }
+
+    @GetMapping("/{productId}")
+    public ProductResponseDto getProduct(@PathVariable Long productId) {
+        return productService.getProduct(productId);
+    }
+
+    @GetMapping
+    public List<ProductResponseDto> getProductList() {
+        return productService.getProductList();
     }
 
 }
