@@ -22,10 +22,14 @@ public class Order {
     private Product product;
 
     @Column(nullable = false)
+    private int quantity;
+
+    @Column(nullable = false)
     private LocalDateTime orderedAt;
 
-    public Order(Product product) {
+    public Order(Product product, int quantity) {
         this.product = product;
+        this.quantity = quantity;
         this.orderedAt = LocalDateTime.now();
     }
 

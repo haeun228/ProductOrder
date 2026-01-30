@@ -13,6 +13,7 @@ public class OrderResponseDto {
     private Long orderId;
     private Long productId;
     private String productName;
+    private int quantity;
     private LocalDateTime orderedAt;
 
     public static OrderResponseDto from(Order order) {
@@ -20,6 +21,7 @@ public class OrderResponseDto {
                 order.getId(),
                 order.getProduct().getId(),
                 order.getProduct().getName(),
+                order.getQuantity(),
                 order.getOrderedAt()
         );
     }

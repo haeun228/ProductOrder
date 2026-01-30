@@ -6,6 +6,7 @@ import com.example.productorder.dto.OrderRequestDto;
 import com.example.productorder.dto.OrderResponseDto;
 import com.example.productorder.repository.OrderRepository;
 import com.example.productorder.repository.ProductRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,10 +21,13 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
 
+    @Transactional
     public OrderResponseDto createOrder(OrderRequestDto request) {
         Product product = productRepository.findById(request.getProductId())
                 .orElseThrow(() -> new IllegalArgumentException("상품을 찾을 수 없습니다."));
-        Order order = new Order(product);
+        product.decreaseStock(request.getQuantity());
+
+        Order order = new Order(product, request.getQuantity());
         orderRepository.save(order);
 
         return OrderResponseDto.from(order);
