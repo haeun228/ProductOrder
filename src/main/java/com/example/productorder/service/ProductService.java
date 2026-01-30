@@ -3,6 +3,8 @@ package com.example.productorder.service;
 import com.example.productorder.domain.Product;
 import com.example.productorder.dto.ProductRequestDto;
 import com.example.productorder.dto.ProductResponseDto;
+import com.example.productorder.exception.CustomException;
+import com.example.productorder.exception.ErrorCode;
 import com.example.productorder.repository.ProductRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -50,6 +52,6 @@ public class ProductService {
 
     private Product findProductById(Long productId) {
         return productRepository.findById(productId)
-                .orElseThrow(() -> new IllegalArgumentException("상품을 찾을 수 없습니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.PRODUCT_NOT_FOUND));
     }
 }

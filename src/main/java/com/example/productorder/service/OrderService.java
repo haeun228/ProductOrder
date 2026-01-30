@@ -4,6 +4,8 @@ import com.example.productorder.domain.Order;
 import com.example.productorder.domain.Product;
 import com.example.productorder.dto.OrderRequestDto;
 import com.example.productorder.dto.OrderResponseDto;
+import com.example.productorder.exception.CustomException;
+import com.example.productorder.exception.ErrorCode;
 import com.example.productorder.repository.OrderRepository;
 import com.example.productorder.repository.ProductRepository;
 import jakarta.transaction.Transactional;
@@ -24,7 +26,7 @@ public class OrderService {
     @Transactional
     public OrderResponseDto createOrder(OrderRequestDto request) {
         Product product = productRepository.findById(request.getProductId())
-                .orElseThrow(() -> new IllegalArgumentException("상품을 찾을 수 없습니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.PRODUCT_NOT_FOUND));
         product.decreaseStock(request.getQuantity());
 
         Order order = new Order(product, request.getQuantity());
@@ -35,7 +37,7 @@ public class OrderService {
 
     public OrderResponseDto getOrder(Long orderId) {
         Order order = orderRepository.findById(orderId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 주문입니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.ORDER_NOT_FOUND));
 
         return OrderResponseDto.from(order);
     }

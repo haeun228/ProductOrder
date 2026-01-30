@@ -1,6 +1,8 @@
 package com.example.productorder.domain;
 
 import com.example.productorder.dto.ProductRequestDto;
+import com.example.productorder.exception.CustomException;
+import com.example.productorder.exception.ErrorCode;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -40,10 +42,10 @@ public class Product {
 
     public void decreaseStock(int quantity) {
         if (quantity <= 0) {
-            throw new IllegalArgumentException("주문 수량은 1 이상이어야 합니다.");
+            throw new CustomException(ErrorCode.INVALID_REQUEST);
         }
         if (stock < quantity) {
-            throw new IllegalArgumentException("상품의 재고가 부족합니다.");
+            throw new CustomException(ErrorCode.OUT_OF_STOCK);
         }
         stock -= quantity;
     }
